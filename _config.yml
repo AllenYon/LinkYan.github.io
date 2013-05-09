@@ -1,0 +1,11 @@
+markdown: redcarpet
+redcarpet:
+  extensions: ["no_intra_emphasis", "fenced_code_blocks", "autolink", "tables", "with_toc_data"]
+pygments: true
+baseurl: http://fleurer.github.com
+auto: false
+destination: ./_site
+title: fleuria lee
+
+author_name: fleuria
+author_email: me.ssword@gmail.com
