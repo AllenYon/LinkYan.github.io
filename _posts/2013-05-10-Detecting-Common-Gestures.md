@@ -176,7 +176,7 @@ GestureDetector.SimpleOnGestureListener 提供所有On&lt;TouchEvent&gt;方法�
 
 无论你是否使用GestureDetector.OnGestureListener，这是一个最佳实践(best practice)去实现一个返回true的 onDown()方法。因为所有的手势开始与一个onDown()信息。如果你在onDown()返回false，GestureDetector.SimpleOnGestureListener只做默认动作，系统假定你要忽视手势的剩余部分(rest)，然后GestureDetector.OnGestureListener的其他方法将永远不会被调用。这可能是在你应用中的一个潜在异常(potential)。除非你真的是要忽略手势，你才应该返回false.
 
-```
+{% highlight java lineons%}
 public class MainActivity extends Activity { 
     private GestureDetectorCompat mDetector; 
     @Override
@@ -205,4 +205,4 @@ public class MainActivity extends Activity {
         }
     }
 }
-``` 
+{% endhighlight %}
