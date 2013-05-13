@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 创建属于你自己的3D ListView (译文)
+title: 创建属于你自己的3D ListView (译)
 ---
 
 本文是教你如何在安卓应用中做出很酷效果的ListView的教材第一章，我叫Anders Ericson，主要从事UI工作，在Timescape应用中有个就是我做的，你可以在Xperia X10 mini 和 Xperia X10 mini pro中找到.当用户尝试使用一个App时，UI是他们第一个关注的东西,所以我决定做一个教材，使得其他任何安卓开发者可以创建属于他们自己的ListView,类似与在Timescape中的3D感觉和物理特性(dynamics).
@@ -51,6 +51,127 @@ public class MyListView extends AdapterView {
     }
 }
 ```
+这里唯一值得注意的是setAdapter方法。当我们获得一个新的Adapter我们移除之前所有的视图，然后请求一个布局，并且按照adapter放置视图。如果我们现在创建一个activity和带有假数据的adapter，然后使用新视图，我们将得不到任何东西，在屏幕上。这是因为如果我们要在屏幕上得到一些东西，我们需要重写onLayout()方法。
+
+#### 显示我们的第一个视图
+
+在[onLayout( )](http://developer.android.com/reference/android/view/View.html#onLayout(boolean,%20int,%20int,%20int,%20int) )中，我们从adpater中获取视图，并且添加他们作为一个子视图。
+
+```
+@Override
+protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+    super.onLayout(changed, left, top, right, bottom);
+    // if we don't have an adapter, we don't need to do anything
+    if (mAdapter == null) {
+        return;
+    }
+    if (getChildCount() == 0) {
+        int position = 0;
+        int bottomEdge = 0;
+        while (bottomEdge &lt; getHeight() &amp;&amp; position &lt; mAdapter.getCount()) {
+            View newBottomChild = mAdapter.getView(position, null, this);
+            addAndMeasureChild(newBottomChild);
+            bottomEdge += newBottomChild.getMeasuredHeight();
+            position++;
+        }
+    }
+    positionItems();
+}
+```
+So，What happends hers? 首先执行父调用和空值检查，然后开始真正有用的代码。如果我们还没有添加任何子节点，那么我们就开始那么做。这个while循环直到我们添加足够多的视图覆盖整个屏幕为止。当我们从adapter获得一个视图，我们就把它添加为一个子节点，然后我们需要测量(measure)它，为的是得到它的正确尺寸。当我们添加完所有的视图，我们把它们放置到正确的位置.
+
+
+```
+/**
+ * Adds a view as a child view and takes care of measuring it
+ *
+ * @param child The view to add
+ */
+private void addAndMeasureChild(View child) {
+    LayoutParams params = child.getLayoutParams();
+    if (params == null) {
+        params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+    }
+    addViewInLayout(child, -1, params, true);
+    int itemWidth = getWidth();
+    child.measure(MeasureSpec.EXACTLY | itemWidth, MeasureSpec.UNSPECIFIED);
+}
+/**
+ * Positions the children at the &quot;correct&quot; positions
+ */
+private void positionItems() {
+    int top = 0;
+    for (int index = 0; index < getChildCount(); index++) {
+        View child = getChildAt(index);
+        int width = child.getMeasuredWidth();
+        int height = child.getMeasuredHeight();
+        int left = (getWidth() - width) / 2;
+        child.layout(left, top, left + width, top + height);
+        top += height;
+    }
+}
+
+```
+这些代码比较简单，自解释，所以我不准备过多描述。虽然我在测量子视图时走了点捷径，但是这些代码在大部分情况下是工作良好的。positioItems()从top（0)开始，然后布局这些子视图，一个挨着一个，没有任何padding。值得注意的是，我们忽略了list可能有的padding.
+
+### 滑动
+如果现在运行这些代码，我们在屏幕上得到一些东西了。然而，这一点交互的感觉也没有（interactive）。当我们触摸屏幕时它不会滑动，我们也不能点击任何item.要让触摸生效，我们需要重写 onTouchEvent()。
+
+仅仅使其滑动的触摸逻辑是十分简单的，当我们得到一个按下事件，我们保存下按下事件的位置，和list的位置。我们将使用第一个item的top作为list的位置(position)，当我们获得一个移动事件，我们计算与按下事件的距离，然后根据开始位置和当前位置的距离重新安置list。
+
+```
+@Override
+public boolean onTouchEvent(MotionEvent event) {
+    if (getChildCount() == 0) {
+        return false;
+    }
+    switch (event.getAction()) {
+        case MotionEvent.ACTION_DOWN:
+            mTouchStartY = (int)event.getY();
+            mListTopStart = getChildAt(0).getTop();
+            break; 
+        case MotionEvent.ACTION_MOVE:
+            int scrolledDistance = (int)event.getY() - mTouchStartY;
+            mListTop = mListTopStart + scrolledDistance;
+            requestLayout();
+            break;
+        default:
+            break;
+    }
+    return true;
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
