@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Lazy ListView 
+title: Lazy ListView--细化ListView加载图片策略 
 ---
 
 使用ListView控件来加载图片时，我们一般会使用异步加载的方式。但是如果我们滑动过快的话，可能会超出AsyncTask最大128个线程的限制，然后报异常，FC。于是我们可以使用```setOnScrollListener(…)```监听当ScrollState变为```SCROLL_STAT_IDLE```时我们再触发图片加载，[Android-Universal-Image-Loader](https://github.com/nostra13/Android-Universal-Image-Loader) 有实现这样的逻辑。
@@ -184,7 +184,8 @@ LKImageView 是继承自ImageView类，并扩展了很多附加功能的控件�
 **并且```mLazyImgs.clear()```在结束是必须要调用的，不然会有问题。**
 
 现在就去尝试下吧，你可以下载我们的这个应用 
-[Google Play 壁纸控](https://play.google.com/store/apps/details?id=com.huaban.wallpaper&feature=search_result#?t=W251bGwsMSwxLDEsImNvbS5odWFiYW4ud2FsbHBhcGVyIl0.) ，里面使用了这套加载策略。
+
+<img src="https://lh4.ggpht.com/EUP4NTyHIMdWZsMgYX5w2kgIE3e3JE5Ud_Yx7tkeYOj8AALgSS2TUYoW92V-dQvVyVM=w124" height=50>[壁纸控](https://play.google.com/store/apps/details?id=com.huaban.wallpaper&feature=search_result#?t=W251bGwsMSwxLDEsImNvbS5odWFiYW4ud2FsbHBhcGVyIl0.) ，里面使用了这套加载策略。
 
 
 
