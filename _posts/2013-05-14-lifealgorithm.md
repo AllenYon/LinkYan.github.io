@@ -90,4 +90,4 @@ title: 程序算法与人生选择
 
 非常喜欢这篇文章就转过来，时时督促自己！ 
 ###我的算法是什么？我的目标是什么？
-![car ](http://img.hb.aicdn.com/c8ecdef6c7df7f6e74c9aff8244d3aae8b9819251116e-hrTAMK_fw580)
+![car ](http://pic.yupoo.com/wsyanligang_v/CRnsVx3l/3Zin9.jpg)
