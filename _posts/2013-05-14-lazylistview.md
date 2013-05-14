@@ -178,9 +178,10 @@ LKImageView 是继承自ImageView类，并扩展了很多附加功能的控件�
 - ```public void display(DisplayOptions options);``` 异步加载图片的方法。
 - ```public boolean tryDisplayWithMemory(DisplayOptions options); ```尝试从内存中同步加载图片的方法
 
-在onLazyLoad()中 ```for (int i = first - 2; i < last + 2; i++)``` 分别-2和+2，可以做到不仅仅加载当前屏幕的可见范围，还可以多加载几个，不做调整也是没有关系的。
+在onLazyLoad()中 ```for (int i = first - 2; i < last + 2; i++)``` 
+分别-2和+2，可以做到不仅仅加载当前屏幕的可见范围，还可以多加载几个，不做调整也是没有关系的。
 
-``` mLazyImgs.clear();```在结束是必须要调用的，不然会有问题。
+**并且```mLazyImgs.clear()```在结束是必须要调用的，不然会有问题。**
 
 现在就去尝试下吧，你可以下载我们的这个应用 
 [Google Play 壁纸控](https://play.google.com/store/apps/details?id=com.huaban.wallpaper&feature=search_result#?t=W251bGwsMSwxLDEsImNvbS5odWFiYW4ud2FsbHBhcGVyIl0.) ，里面使用了这套加载策略。
