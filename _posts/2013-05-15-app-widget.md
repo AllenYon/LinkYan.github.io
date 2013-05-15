@@ -35,11 +35,11 @@ App Widgets是一种能嵌入到其他应用程序(如Home screen)的小型应�
 </receiver>
 ```
 
-<receiver>元素需要android:name属性，用来指定App Widget所使用的AppWidgetProvider。
+这个```<receiver>```元素需要android:name属性，用来指定App Widget所使用的AppWidgetProvider。
 
-<intent-filter>元素必须包含一个带有android:name属性的<action>元素。这个属性指定了AppWidgetProvider接收ACTION_APPWIDGET_UPDATE广播。这是你必须要显示声明的广播。AppWidgetManager会自动发生其他所有的App Widget广播到AppWidgetProvider中，如果有必要的话。
+这个```<intent-filter>```元素必须包含一个带有android:name属性的```<action>```元素。这个属性指定了AppWidgetProvider接收ACTION_APPWIDGET_UPDATE广播。这是你必须要显示声明的广播。AppWidgetManager会自动发生其他所有的App Widget广播到AppWidgetProvider中，如果有必要的话。
 
-<meta-data>元素指定了
+这个```<meta-data>```元素指定了
 
 
 
