@@ -2,3 +2,4 @@ markdown: redcarpet
 pygments: true
 permalink: /:year/:month/:title
 paginate: 20
+title: Link Yan
