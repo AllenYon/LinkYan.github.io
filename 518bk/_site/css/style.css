@@ -1,0 +1,217 @@
+html {
+}
+
+body {
+    background-color: #e8dabf;
+    background-image: url(http://pic.yupoo.com/wsyanligang_v/CQJfkHD0/ifYVe.png), url(http://pic.yupoo.com/wsyanligang_v/CQJg4UQV/M5EgK.png);
+    background-position: bottom right, top;
+    background-repeat: no-repeat, repeat;
+    background-attachment: fixed, scroll;
+    font-family: 'Port Lligat Slab', arial, sans-serif;
+    color: #444;
+}
+
+a {
+    font-family: 'Port Lligat Slab', arial, sans-serif;
+    color: #222;
+    border-bottom: 1px dotted;
+    text-decoration: none;
+}
+
+a:hover { border-bottom: 1px solid; }
+a:visited { color: #444; }
+
+strong {
+    font-weight: bold;
+}
+
+hr {
+    border: none;
+    height: 3px;
+    background: #eee url(../img/bg_hr.png);
+    display: block;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    font-family: 'Port Lligat Slab', sans-serif;
+    padding: 1em 0 0.1em 0;
+}
+
+h1 { font-size: 40px; }
+h2 { font-size: 30px; }
+h3 { font-size: 22px; }
+h4 { font-size: 19px; }
+
+sup {
+    vertical-align: super;
+    font-size: smaller;
+}
+
+em {
+    font-style: italic;
+}
+
+/* ------------------------------------------------ */
+
+#wrap {
+    width: 100%;
+    max-width: 800px;
+    margin: 2em 2em 2em 2.5em;
+}
+
+#neta {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
+
+/* ------------------------------------------------ */
+
+#hd {
+    width: 100%;
+    margin: 1em 0 2em 0;
+}
+
+#hd h1 {
+    padding: 0.1em 0 0.1em 0;
+}
+
+#hd a {
+    display: inline-block;
+    color: #222;
+    border-bottom: none;
+}
+
+#hd a:hover {
+    text-decoration: underline;
+}
+
+#hd .info {
+    margin: 10px auto;
+    display: block;
+    padding: 0 20px 0 0;
+    font-size: 14px;
+    font-family: 'Port Lligat Slab';
+}
+
+#hd .info a {
+    margin: 0 0.2em 0 0.2em;
+}
+
+/* ------------------------------------------------ */
+
+#mn {
+    width: 100%;
+    line-height: 1.2em;
+}
+
+#mn hr {
+    height: 2px;
+}
+
+#mn > ul {
+    padding: 0 0 15px 0;
+}
+
+#mn ul#posts {
+    list-style: none;
+}
+
+#mn #posts li {
+    padding: 0 0 8px 0;
+}
+
+#mn #posts a.title {
+    vertical-align: middle;
+    font-size: 15px;
+    line-height: 20px;
+}
+
+#mn #posts a.more {
+    margin: 0 10px 0 0;
+}
+
+/*= for single */
+
+#mn #content {
+    font-size: 15px;
+} 
+
+#mn #content > * {
+    margin: 12px 0 12px 0;
+}
+
+#mn #content p {
+    line-height: 1.4em;
+}
+
+#mn #content blockquote {
+    padding: 10px 0 10px 20px;
+    font-style: italic;
+    color: #555;
+}
+
+#mn #content img {
+    display: inline-block;
+    max-width: 700px;
+}
+
+#mn #content pre {
+    background: #444;
+    color: #fff;
+    font-family: monospace;
+    font-size: 13px;
+    line-height: 19px;
+    padding: 0.9em;
+    overflow: auto;
+}
+
+#mn #content ul {
+    list-style: circle;
+}
+
+#mn #content ol {
+    list-style: decimal;
+}
+
+#mn #content ul li, #mn #content ol li {
+    margin: 0.5em 2em 0.5em 1.5em;
+}
+
+#mn #content table th {
+    border: 1px solid #eee;
+    padding: 0.5em 0.5em 0.5em 0.5em;
+    text-align: left;
+}
+
+
+/*= for comments */
+
+#mn #comments {
+    padding: 20px 0 0 0;
+    font-size: 13px;
+}
+
+#mn #comments h3 {
+    display: none;
+}
+
+#mn #comments hr {
+    height: 1px;
+}
+
+#mn #comments #dsq-pagination, #dsq-sort-by {
+    display: none;
+}
+
+#mn #comments .dsq-comment-message {
+    font: 12px;
+}
+
+/* ---------------------------------------------- */
+
+#ft {
+    margin: 1em 0.5em 0 -1em;
+    color: #444;
+    font-size: 11px;
+}

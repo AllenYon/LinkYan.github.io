@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <link rel="alternate" type="application/rss+xml" href="/atom.xml" /> 
+    
+      <link rel="shortcut icon" type="image/png" href="/img/icon.jpg" />
+    
+    <style>
+      @import url(/css/font-face.css);
+      @import url(/css/reset.css);
+      @import url(/css/toolkit.css);
+      @import url(/css/style.css);
+      @import url(/css/syntax.css);
+    </style>
+    <link rel="stylesheet" media="all and (max-device-width: 799px)" href="/css/mobile.css"> 
+    <title>当ViewPager嵌套在ScrollView/ListView里时，手势冲突如何处理？</title>
+  </head>
+  <body>
+    <div id="wrap">
+      <div id="hd">
+        <h1><a href="/index.html">当ViewPager嵌套在ScrollView/ListView里时，手势冲突如何处理？</a></h1>
+        <span class="desc info">
+          
+          <span class="date">10 May 2013</span>
+          
+          <a href="/index.html">Post</a>
+          <a href="/about.html">About</a>
+        </span>
+      </div>
+
+      <div id="mn">
+        <div id="content">
+    <p>有时我们需要将ViewPager嵌套在其他已经含有手势动作的ViewGroup里,如ScrollView,ListView时，会造成手势冲突，如表现为ViewPager向左划时，不小心向上移动了一点距离，ViewPager立刻回弹到原始位置。</p>
+
+<p>主要问题出在ScrollView/ListView作为ViewPager的ParentView，会先接受到触摸信息，而且他们对上下滑动是会做出拦截动作，并接管触摸信息的向下传递，导致ViewPager滑动异常。
+先看一种<a href="http://justwyy.iteye.com/blog/1567390">解决方式</a>:</p>
+<div class="highlight"><pre><code class="text language-text">public class ScrollViewExtend extends ScrollView {  
+    private float xDistance, yDistance, xLast, yLast;  
+    public ScrollViewExtend(Context context, AttributeSet attrs) {  
+        super(context, attrs);  
+    }  
+    @Override  
+    public boolean onInterceptTouchEvent(MotionEvent ev) {  
+        switch (ev.getAction()) {  
+            case MotionEvent.ACTION_DOWN:  
+                xDistance = yDistance = 0f;  
+                xLast = ev.getX();  
+                yLast = ev.getY();  
+                break;  
+            case MotionEvent.ACTION_MOVE:  
+                final float curX = ev.getX();  
+                final float curY = ev.getY();             
+                xDistance += Math.abs(curX - xLast);  
+                yDistance += Math.abs(curY - yLast);  
+                xLast = curX;  
+                yLast = curY;  
+                if(xDistance &gt; yDistance){  
+                    return false;  
+                }    
+        }  
+        return super.onInterceptTouchEvent(ev);  
+    }  
+}   
+</code></pre></div>
+<p>这种方式的确可以解决这个问题，但是其实Google已经提供了一个函数来解决ParentView与ChildView手势冲突的问题。</p>
+<div class="highlight"><pre><code class="text language-text">public void requestDisallowInterceptTouchEvent(boolean disallowIntercept)
+</code></pre></div>
+<p>由ViewPager在OnTouch/onInterceptTouchEvent，dispatchTouchEvent中调用即可。</p>
+
+</div>
+
+<div id="comments">
+    <div id="disqus_thread"></div>
+</div>
+
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'linkyan'; // required: replace example with your forum shortname
+    var disqus_developer = 1;
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+
+      </div>
+
+      <div id="ft">
+         hosted on github, and powered by jekyll. (<a href="/atom.xml">rss</a>)</br></br>
+         <a href="http://www.taofengping.com">NICO</a>
+      </div>
+    </div>
+  </body>
+</html>
+

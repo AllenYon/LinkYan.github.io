@@ -1,0 +1,28 @@
+/*------------------------------------*\
+    $MISC
+\*------------------------------------*/
+/**
+ * Make up my own responsive push class for the sidebar.
+ */
+@include media-query(desk){
+    .desk-push--one-tenth{
+        position:relative;
+        left:10%;
+    }
+}
+
+.\.net-award{
+    background-color:rgb(241, 179, 0);
+    text-align:left;
+
+    &:hover{
+        text-decoration:none;
+    }
+}
+
+
+/**
+ * Coloured highlighting!
+ */
+::selection         { background-color:$brand-color; color:#fff; }
+::-moz-selection    { background-color:$brand-color; color:#fff; }

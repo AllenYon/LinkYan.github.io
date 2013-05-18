@@ -1,0 +1,37 @@
+/*------------------------------------*\
+    $ADS
+\*------------------------------------*/
+/**
+ * Ad Packs styling.
+ */
+.ad{
+    @include font-size(12px);
+    font-family:sans-serif;
+    text-align:center;
+    background-color:#eee;
+    @include vendor(box-shadow, 0 0 5px rgba(0, 0, 0, 0.1) inset);
+    border-radius:$brand-round;
+
+    a{
+        color:inherit;
+        font-weight:normal;
+
+        &:hover{
+            color:$brand-color;
+        }
+    }
+
+    img{
+        margin-right:auto;
+        margin-bottom:$half-spacing-unit;
+        margin-left:auto;
+        display:block;
+    }
+}
+
+.bsa_it_t{
+    display:block;
+}
+.bsa_it_p{
+    display:none;
+}

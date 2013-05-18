@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <link rel="alternate" type="application/rss+xml" href="/atom.xml" /> 
+    
+      <link rel="shortcut icon" type="image/png" href="/img/icon.jpg" />
+    
+    <style>
+      @import url(/css/font-face.css);
+      @import url(/css/reset.css);
+      @import url(/css/toolkit.css);
+      @import url(/css/style.css);
+      @import url(/css/syntax.css);
+    </style>
+    <link rel="stylesheet" media="all and (max-device-width: 799px)" href="/css/mobile.css"> 
+    <title>ActiveAndroid--Android轻量级ORM框架</title>
+  </head>
+  <body>
+    <div id="wrap">
+      <div id="hd">
+        <h1><a href="/index.html">ActiveAndroid--Android轻量级ORM框架</a></h1>
+        <span class="desc info">
+          
+          <span class="date">17 May 2013</span>
+          
+          <a href="/index.html">Post</a>
+          <a href="/about.html">About</a>
+        </span>
+      </div>
+
+      <div id="mn">
+        <div id="content">
+    <p>Github:<a href="https://github.com/pardom/ActiveAndroid">ActiveAndroid</a></p>
+
+<p>ActiveAndroid算是一个轻量级的ORM框架，简单地通过如save()和delete()等方法来做到增删改查等操作。配置起来也还算简单。</p>
+
+<p>下面是作者的原话：</p>
+
+<blockquote>
+<p>ActiveAndroid is an active record style ORM (object relational mapper). What does that mean exactly? Well, ActiveAndroid allows you to save and retrieve SQLite database records without ever writing a single SQL statement. Each database record is wrapped neatly into a class with methods like save() and delete().</p>
+
+<p>ActiveAndroid does so much more than this though. Accessing the database is a hassle, to say the least, in Android. ActiveAndroid takes care of all the setup and messy stuff, and all with just a few simple steps of configuration.</p>
+</blockquote>
+
+<h2>开始</h2>
+
+<hr>
+
+<p>在AndroidManifest.xml中我们需要添加这两个<meta-data></p>
+
+<ul>
+<li><code>AA_DB_NAME</code> (这个name不能改，但是是可选的，如果不写的话 是默认的&quot;Application.db&quot;这个值）</li>
+<li><code>AA_DB_VERSION</code> (optional – defaults to 1)</li>
+</ul>
+
+<div class="highlight"><pre><code class="xml"><span class="nt">&lt;manifest</span> <span class="err">...</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;application</span> <span class="na">android:name=</span><span class="s">&quot;com.activeandroid.app.Application&quot;</span> <span class="err">...</span><span class="nt">&gt;</span>
+        ...
+        <span class="nt">&lt;meta-data</span> <span class="na">android:name=</span><span class="s">&quot;AA_DB_NAME&quot;</span> <span class="na">android:value=</span><span class="s">&quot;your.db&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;meta-data</span> <span class="na">android:name=</span><span class="s">&quot;AA_DB_VERSION&quot;</span> <span class="na">android:value=</span><span class="s">&quot;5&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/application&gt;</span>
+<span class="nt">&lt;/manifest&gt;</span>
+</code></pre></div>
+
+<p>这个<code>&lt;application&gt;</code>是必须指定的，但你也可以使用自己的Application,继承自<code>com.activeandroid.app.Application</code></p>
+
+<div class="highlight"><pre><code class="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyApplication</span> <span class="kd">extends</span> <span class="n">com</span><span class="o">.</span><span class="na">activeandroid</span><span class="o">.</span><span class="na">app</span><span class="o">.</span><span class="na">Application</span> <span class="o">{</span> <span class="o">...</span>
+</code></pre></div>
+
+<p>如果你不想或者不能继承<code>com.activeandroid.app.Application</code>的话，那么就这样</p>
+
+<div class="highlight"><pre><code class="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyApplication</span> <span class="kd">extends</span> <span class="n">SomeLibraryApplication</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">();</span>
+        <span class="n">ActiveAndroid</span><span class="o">.</span><span class="na">initialize</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onTerminate</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onTerminate</span><span class="o">();</span>
+        <span class="n">ActiveAndroid</span><span class="o">.</span><span class="na">dispose</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<p><code>ActiveAndroid.initialize(this)；</code>做初始化工作，<code>ActiveAndroid.dispose();</code>做清理工作</p>
+
+<h2>创建数据库模型</h2>
+
+<hr>
+
+<p>我们使用<code>@Table(name = &quot;Items&quot;)</code>来表示表，使用<code>@Column(name = &quot;Name&quot;)</code>来表示列，ActiveAndroid会使用自增长的ID作为主键，然后按照注解描述，将类对应映射为数据库表。</p>
+<div class="highlight"><pre><code class="text language-text">@Table(name = &quot;Items&quot;)
+public class Item extends Model {
+    @Column(name = &quot;Name&quot;)
+    public String name;
+    @Column(name = &quot;Category&quot;)
+    public Category category;
+        public Item(){
+                super();
+        }
+        public Item(String name, Category category){
+                super();
+                this.name = name;
+                this.category = category;
+        }
+}
+</code></pre></div>
+<h3>依赖关系的数据库表</h3>
+
+<p>假如Item和Category是多对一的关系，那么我们可以这样子创建他们的类</p>
+<div class="highlight"><pre><code class="text language-text">@Table(name = &quot;Items&quot;)
+public class Item extends Model {
+    @Column(name = &quot;Name&quot;)
+    public String name;
+    @Column(name = &quot;Category&quot;)
+    public Category category;
+}
+</code></pre></div><div class="highlight"><pre><code class="text language-text">@Table(name = &quot;Categories&quot;)
+public class Category extends Model {
+    @Column(name = &quot;Name&quot;)
+    public String name;
+    public List&lt;Item&gt; items() {
+        return getMany(Item.class, &quot;Category&quot;);
+    }
+}
+</code></pre></div>
+<h2>如何保存和更新数据到数据库</h2>
+
+<hr>
+
+<h3>单挑插入</h3>
+
+<p>保存Category对象</p>
+<div class="highlight"><pre><code class="text language-text">Category restaurants = new Category();
+restaurants.name = &quot;Restaurants&quot;;
+restaurants.save();
+</code></pre></div>
+<p>分配了一个category并且保存到数据库
+<code>
+Item item = new Item();
+item.category = restaurants;
+item.name = &quot;Outback Steakhouse&quot;;
+item.save();
+</code></p>
+
+<h3>批量插入</h3>
+
+<p>如果你要批量插入数据，最好使用事务(transaction)。</p>
+<div class="highlight"><pre><code class="text language-text">ActiveAndroid.beginTransaction();
+try {
+        for (int i = 0; i &lt; 100; i++) {
+            Item item = new Item();
+            item.name = &quot;Example &quot; + i;
+            item.save();
+        }
+        ActiveAndroid.setTransactionSuccessful();
+}
+finally {
+        ActiveAndroid.endTransaction();
+}
+</code></pre></div>
+<p>使用事务的话只用了 40ms，不然的话需要4秒。</p>
+
+<h3>删除记录</h3>
+
+<p>我们有三种方式删除一条记录</p>
+<div class="highlight"><pre><code class="text language-text">Item item = Item.load(Item.class, 1);
+item.delete();
+</code></pre></div><div class="highlight"><pre><code class="text language-text">Item.delete(Item.class, 1);
+</code></pre></div><div class="highlight"><pre><code class="text language-text">new Delete().from(Item.class).where(&quot;Id = ?&quot;, 1).execute();
+</code></pre></div>
+<p>很简单吧</p>
+
+<h2>查询数据库</h2>
+
+<hr>
+
+<p>作者将查询做的非常像SQLite的原生查询语句，几乎涵盖了所有的指令
+com.activeandroid.query包下有以下类</p>
+
+<ul>
+<li>Delete</li>
+<li>From</li>
+<li>Join</li>
+<li>Select</li>
+<li>Set</li>
+<li>Update</li>
+</ul>
+
+<p>我们举例说明吧</p>
+<div class="highlight"><pre><code class="text language-text">public static Item getRandom(Category category) {
+    return new Select()
+        .from(Item.class)
+        .where(&quot;Category = ?&quot;, category.getId())
+        .orderBy(&quot;RANDOM()&quot;)
+        .executeSingle();
+}
+</code></pre></div>
+<p>对应的sqlite查询语句就是 <code>select * from Item where Category = ? order by RANDOM()</code>
+当然还支持其他非常多的指令</p>
+
+<ul>
+<li>limit</li>
+<li>offset</li>
+<li>as</li>
+<li>desc/asc</li>
+<li>inner/outer/cross join</li>
+<li>group by</li>
+<li>having 
+等等</li>
+</ul>
+
+<p>大家可以在<strong>ActiveAndroid项目下的tests工程</strong>找到测试用例，有非常多详细的描述。</p>
+
+</div>
+
+<div id="comments">
+    <div id="disqus_thread"></div>
+</div>
+
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'linkyan'; // required: replace example with your forum shortname
+    var disqus_developer = 1;
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+
+      </div>
+
+      <div id="ft">
+         hosted on github, and powered by jekyll. (<a href="/atom.xml">rss</a>)</br></br>
+         <a href="http://www.taofengping.com">NICO</a>
+      </div>
+    </div>
+  </body>
+</html>
+

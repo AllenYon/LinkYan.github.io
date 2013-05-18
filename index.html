@@ -1,12 +1,40 @@
 ---
 layout: default
-title: Link Yan
+title: Home
+page-class: page--home
 ---
+    
+<h1 class="accessibility">Link Yan</h1>
 
-<ul id="posts">
-  {% for post in site.posts limit:12 %}
-  <li> <a class="title" href="{{ post.url }}">{{ post.title }}</a> </li>
-  {% endfor %}
-  <li> <a class="title more" href="archieve.html"> » more </a> </li>
-</ul>
+<section class="posts">
+    <ul class="block-list">
+        {% for post in paginator.posts %}
+        <li>
+            <h2 class="post__title"><a href="{{ post.url }}">{{ post.title }}</a></h2>
+            <!--<span class="post__time">{{ post.date | date: "%d %B, %Y" }}</span>-->
+        </li>
+        {% endfor %}
+    </ul>
+</section>
 
+<ol class="nav  pagination">
+    <li class="pagination__prev">
+        {% if paginator.previous_page %}
+        {% if paginator.previous_page == 1 %}
+            <a href="/">Previous</a>
+        {% else %}
+            <a href="/page{{paginator.previous_page}}">Previous</a>
+        {% endif %}
+        {% else %}
+            Previous
+        {% endif %}
+    </li><!--
+    
+ --><li class="pagination__next">
+        {% if paginator.next_page %}
+            <a href="/page{{paginator.next_page}}">Next</a>
+        {% else %}
+            Next
+        {% endif %}
+    </li>
+</ol>
