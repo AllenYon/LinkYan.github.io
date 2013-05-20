@@ -23,7 +23,7 @@ ActiveAndroid算是一个轻量级的ORM框架，简单地通过如save()和dele
 - `AA_DB_NAME` (这个name不能改，但是是可选的，如果不写的话 是默认的"Application.db"这个值）
 - `AA_DB_VERSION` (optional – defaults to 1)
 
-{% highlight xml %}
+{% highlight ruby %}
 <manifest ...>
 	<application android:name="com.activeandroid.app.Application" ...>
 		...
