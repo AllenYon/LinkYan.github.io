@@ -117,7 +117,14 @@ you to avoid thinking about any security issues related to other applications
 being able to receive or send your broadcasts.
 
 
-`ExceptionCenterFactory`只有一个抽象函数` public abstract void onAddExceptionList(List<Class<? extends LKException>> filterList);` 开发者将需要过滤处理的类添加到队列中。
+`ExceptionCenterFactory`只有一个抽象函数
+
+``` 
+public abstract class ExceptionCenterFactory {
+    public abstract void onAddExceptionList(List<Class<? extends LKException>> filterList);
+}
+```
+开发者将需要过滤处理的类添加到队列中。
 
 类似这中实现：
 
