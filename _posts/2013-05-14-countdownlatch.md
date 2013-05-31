@@ -96,3 +96,5 @@ public class CountDownLatchDemo {
 TaskPortion将随即地休眠一段时间，以模拟这部分工作的完成，而WaitingTask表示系统中，必须等待的部分，它要等待到问题的初始部分完成为止。所有任务都使用了在main()中定义的同一个单一的CountDownLatch。
 
 
+
+
