@@ -1,7 +1,16 @@
 ---
 layout: post
-title: CountDownLatch
+title: Java并发之CountDownLatch
 ---
+书摘：
+
+CountDownLatch被用来同步一个或多个任务，强制他们等待由其他任务执行的一组操作完成。
+
+你可以向CountDownLatch对象设置一个初始计数值，任务在这个对象上调用wati()的方法都将阻塞，知道这个计数值达到0。其他任务在结束其工作时，可以在该对象上调用countDown()来减少这个计数值。CountDownLatch被设计为只触发一次，计数值不能被重置。如果你需要能够重置计数值的版本，则可以使用CyclicBarrier。
+
+调用countDown()的任务在产生这个调用时并没有被阻塞，只有对await()的调用会被阻塞，直到计数值达到0。
+
+CountDownLatch的典型用法是将一个程序分为n个互相独立的可解决任务，并创建值为0的CountDownLatch。当每个任务完成是，都会在这个锁存器上调用countDown()。等待问题被解决的任务在这个锁存器上调用await()，将他们自己拦住，知道锁存器计数结束。下面演示这种技术的一个框架示例：
 
 
 ```
@@ -83,5 +92,7 @@ public class CountDownLatchDemo {
     }
 }
 ```
+
+TaskPortion将随即地休眠一段时间，以模拟这部分工作的完成，而WaitingTask表示系统中，必须等待的部分，它要等待到问题的初始部分完成为止。所有任务都使用了在main()中定义的同一个单一的CountDownLatch。
 
 
