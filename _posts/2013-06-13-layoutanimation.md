@@ -97,3 +97,62 @@ anim/slide_right.xml
 </set>
 ```
 
+
+##Implement
+
+```
+public final Animation getAnimationForView(View view) {
+	final long delay = getDelayForView(view) + mAnimation.getStartOffset();
+    mMaxDelay = Math.max(mMaxDelay, delay);
+
+    try {
+        final Animation animation = mAnimation.clone();
+        animation.setStartOffset(delay);
+        return animation;
+    } catch (CloneNotSupportedException e) {
+       return null;
+	}
+}
+```
+
+```
+protected long getDelayForView(View view) {
+	ViewGroup.LayoutParams lp = view.getLayoutParams();
+	AnimationParameters params = lp.layoutAnimationParameters;
+
+	if (params == null) {
+		return 0;
+	}
+
+	final float delay = mDelay * mAnimation.getDuration();
+	final long viewDelay = (long) (getTransformedIndex(params) * delay);
+	final float totalDelay = delay * params.count;
+
+	if (mInterpolator == null) {
+		mInterpolator = new LinearInterpolator();
+	}
+	
+	float normalizedDelay = viewDelay / totalDelay;
+	normalizedDelay = mInterpolator.getInterpolation(normalizedDelay);
+
+	return (long) (normalizedDelay * totalDelay);
+}
+```
+
+```
+protected int getTransformedIndex(AnimationParameters params) {
+	switch (getOrder()) {
+		case ORDER_REVERSE:
+			return params.count - 1 - params.index;
+		case ORDER_RANDOM:
+			if (mRandomizer == null) {
+				mRandomizer = new Random();
+			}
+			return (int) (params.count * mRandomizer.nextFloat());
+		case ORDER_NORMAL:
+		default:
+			return params.index;
+	}
+}
+```
+
