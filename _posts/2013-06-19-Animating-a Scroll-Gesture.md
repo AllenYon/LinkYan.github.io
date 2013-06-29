@@ -22,6 +22,8 @@ Also note that you generally only need to use scrollers when implementing scroll
 
 A scroller is used to animate scrolling over time, using platform-standard scrolling physics (friction, velocity, etc.). The scroller itself doesn't actually draw anything. Scrollers track scroll offsets for you over time, but they don't automatically apply those positions to your view. It's your responsibility to get and apply new coordinates at a rate that will make the scrolling animation look smooth.
 
+Scroller被用于随时间推移动画滚动，使用平台标准的滚动物理（摩擦，速度等）。Scroller其实本身不绘制任何东西。Scrollers随时间推移跟踪滚动偏移，但是他们不会自动地将你的视图移动到那些位置。
+
 
 
 Understand Scrolling Terminology
