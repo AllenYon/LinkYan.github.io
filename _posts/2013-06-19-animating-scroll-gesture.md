@@ -1,8 +1,9 @@
 ---
 layout: post
-title:  Android Training-Animating a Scroll Gesture
+title:  Google官方指南-动画滚动手势
 ---
 
+source:[http://developer.android.com/training/gestures/scroll.html](http://developer.android.com/training/gestures/scroll.html)
 
 在Android中，通常我们使用ScrollView类来实现滑动。任何标准的布局都可能超出容器本身的边界，需要嵌套在由框架管理的可滑动视图的ScrollView中去展示。只有在需要特定的场景中，我们才可能需要去实现一个自定的Scroller。本章节描述了这么一个场景，显示一个使用了滑动器，响应触摸手势的滑动效果。
 
