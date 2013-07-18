@@ -3,7 +3,8 @@
  * 
  * inuitcss.com -- @inuitcss -- @csswizardry
  * 
- *//* normalize.css v2.0.1 | MIT License | git.io/normalize */article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary {
+ *//* normalize.css v2.0.1 | MIT License | git.io/normalize */
+ article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary {
 	display:block
 }
 audio,canvas,video {
@@ -50,6 +51,8 @@ code,kbd,pre,samp {
 	font-family:monospace,serif;
 	font-size:1em
 }
+	
+
 pre {
 	white-space:pre;
 	white-space:pre-wrap;
@@ -505,7 +508,7 @@ th,td {
 }
 .g,.grid {
 	float:left;
-	padding-left:24px
+	padding-left:1px
 }
 .nav {
 	list-style:none;
@@ -963,7 +966,7 @@ th,td {
 	width:40%
 }
 .desk-three-fifths,.desk-six-tenths {
-	width:60%
+	width:70%
 }
 .desk-four-fifths,.desk-eight-tenths {
 	width:80%
@@ -1191,12 +1194,15 @@ pre {
 pre,code,kbd,samp {
 	font-family:Inconsolata,Monaco,Consolas,"Andale Mono","Bitstream Vera Sans Mono","Courier New",Courier,monospace
 }
+
 code,kbd,samp {
 	color:#859900
 }
+
 pre code,pre kbd,pre samp {
 	color:#fff
 }
+
 .code-comment {
 	opacity:0.5
 }
@@ -1389,7 +1395,7 @@ ol ol {
 @media only screen and (min-width:940px) {
 	.desk-push--one-tenth {
 	position:relative;
-	left:10%
+	left:5%
 }
 }.\.net-award {
 	background-color:#f1b300;
