@@ -13,7 +13,7 @@ Dalvik虚拟机为开发者执行自定类加载提供了便利。除了从本�
 
 开发者可以将它们的框架设计成执行逻辑具有很好的可扩展性，然后通过在运行时动态加载代码。
 
-我们已经创建了一个应用来演示分割的dex文件和运行时类加载。（请注意，在下面讨论的原因，应用不能用ADT Eclipse plug-in 构建，而使用包含其中的Ant构建脚本,详细查看Readme.txt）
+我们已经创建了一个[应用](https://code.google.com/p/android-custom-class-loading-sample/)来演示分割的dex文件和运行时类加载。（请注意，在下面讨论的原因，应用不能用ADT Eclipse plug-in 构建，而使用包含其中的Ant构建脚本,详细查看Readme.txt）
 
 App有一个简单的Activity来调用一个类库组件以显示一个Toast.Activity和它的资源包含在默认的dex中，而类库代码是被存储在二级dex中并绑定在APK。这需要一个修改的构建过程，也就是接下来将详细展示的。
 
