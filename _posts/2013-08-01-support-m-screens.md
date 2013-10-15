@@ -15,13 +15,22 @@ Whether you're building in debug mode or release mode, you need to use the Ant t
 
 It's important that you read and understand Signing Your Applications, particularly once you're ready to release your application and share it with end-users. That document describes the procedure for generating a private key and then using it to sign your .apk file. If you're just getting started, however, you can quickly run your applications on an emulator or your own development device by building in debug mode.
 
-如果你没有Ant，你可以从[Apache Ant Home page](http://ant.apache.org/)获取。安装并确保它在你的可执行PATH里。Before calling Ant,you need to declare the JAVA_HOME environment variable to sepecify the path to where the JDK is installed.
+如果你没有Ant，你可以从[Apache Ant Home page](http://ant.apache.org/)获取。安装并确保它在你的可执行PATH里。在你调用Ant之前,你需要将JAVA_HOME环境变量指定到JDK安装的路径.
+
 
 If you don't have Ant, you can obtain it from the Apache Ant home page. Install it and make sure it is in your executable PATH. Before calling Ant, you need to declare the JAVA_HOME environment variable to specify the path to where the JDK is installed.
+
+注意:在Windows系统上安装JDK时,默认是安装到"Program Files"文件夹下.这个路径会使Ant无法使用,原因是这个空格.你可以指定JAVA_HOME变量像下面这样,来修复这个问题:
+	
+	set JAVA_HOME=c:\Progra~1\Java\<jdkdir>
 
 Note: When installing JDK on Windows, the default is to install in the "Program Files" directory. This location will cause ant to fail, because of the space. To fix the problem, you can specify the JAVA_HOME variable like this:
 
 	set JAVA_HOME=c:\Progra~1\Java\<jdkdir>
+	
+最简单的方法,however,是将JDK安装在没有空格的文件夹下,像是这样:
+	
+	c:\java\jdk1.6.0_02
 	
 The easiest solution, however, is to install JDK in a non-space directory, for example:
 
@@ -30,22 +39,39 @@ The easiest solution, however, is to install JDK in a non-space directory, for e
 ##调试模式中构建
 ---
 
-对于直接App的测试和调试，你可以
+对于直接App的测试和调试，你可以在调试模式中构建你的应用程序并且直接安装到模拟器上.在调试模式,构建工具自动地使用调试密钥为你的应用程序签名,并且使用zipalign优化包.
 
 For immediate application testing and debugging, you can build your application in debug mode and immediately install it on an emulator. In debug mode, the build tools automatically sign your application with a debug key and optimize the package with zipalign.
 
+在调试模式中构建:
 To build in debug mode:
+
+打开命令行并导航(navigate)到你项目文件夹的根目录.
+使用Ant在调试模式下编译你的项目:
+
+	ant debug
 
 Open a command-line and navigate to the root of your project directory.
 Use Ant to compile your project in debug mode:
 ant debug
+
+这个创建了你的调试下的.apk文件,包含了项目的bin/文件夹,命名为<your_project_name>-debug.apk.这个文件已经使用了调试密钥签名并且已经使用zipalign优化(aligned).
+每次你修改过了源代码或者资源,你必须再次运行Ant为的是将最新版本的应用程序打包.
+
 This creates your debug .apk file inside the project bin/ directory, named <your_project_name>-debug.apk. The file is already signed with the debug key and has been aligned with zipalign.
 Each time you change a source file or resource, you must run Ant again in order to package up the latest version of the application.
 
+想要在模拟器上安装并且运行你的应用程序,阅读接下来关于<Running on the Emulator>章节
+
 To install and run your application on an emulator, see the following section about Running on the Emulator.
+
+在发布模式下构建
+当你准备好发布并分发你的应用程序到最终用户手中,你必须在发布模式下构建你的应用程序.一旦你完成了在发布模式下构建,这是一个好主意去执行额外的(additional)测试和调试在最终的.apk中.
 
 Building in Release Mode
 When you're ready to release and distribute your application to end-users, you must build your application in release mode. Once you have built in release mode, it's a good idea to perform additional testing and debugging with the final .apk.
+
+在你开始在发布模式下构建你的应用程序钱,
 
 Before you start building your application in release mode, be aware that you must sign the resulting application package with your private key, and should then align it using the zipalign tool. There are two approaches to building in release mode: build an unsigned package in release mode and then manually sign and align the package, or allow the build script to sign and align the package for you.
 
